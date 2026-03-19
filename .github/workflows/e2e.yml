@@ -1,0 +1,71 @@
+name: E2E (Maestro)
+
+on:
+  # Run manually from the Actions tab or on a schedule
+  workflow_dispatch:
+  schedule:
+    # Nightly at 02:00 UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  e2e:
+    name: Maestro E2E on iOS Simulator
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install Maestro
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Build Expo dev client (iOS Simulator)
+        working-directory: apps/mobile
+        run: |
+          pnpm expo prebuild --platform ios --clean
+          xcodebuild \
+            -workspace ios/mobile.xcworkspace \
+            -scheme mobile \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -derivedDataPath build \
+            -quiet
+        env:
+          APP_ENV: development
+
+      - name: Boot iOS Simulator
+        run: |
+          DEVICE=$(xcrun simctl list devices available --json \
+            | jq -r '.devices | to_entries[] | .value[] | select(.name | contains("iPhone 16")) | .udid' \
+            | head -1)
+          xcrun simctl boot "$DEVICE"
+          xcrun simctl install "$DEVICE" \
+            apps/mobile/build/Build/Products/Debug-iphonesimulator/mobile.app
+
+      - name: Run Maestro flows
+        run: maestro test .maestro/
+        env:
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: 60000
