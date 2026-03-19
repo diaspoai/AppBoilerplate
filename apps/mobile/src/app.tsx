@@ -3,16 +3,26 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { env } from '@/shared/env';
+import { ThemeProvider, useTheme } from '@/shared/theme/ThemeProvider';
 
 const convex = new ConvexReactClient(env.CONVEX_URL);
+
+function AppContent() {
+  const { colors, typography } = useTheme();
+  return (
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[typography.h1, { color: colors.textPrimary }]}>AppBoilerplate</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
 
 export default function App() {
   return (
     <ConvexProvider client={convex}>
-      <View style={styles.container}>
-        <Text style={styles.text}>AppBoilerplate</Text>
-        <StatusBar style="auto" />
-      </View>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </ConvexProvider>
   );
 }
@@ -20,12 +30,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: '600',
   },
 });
