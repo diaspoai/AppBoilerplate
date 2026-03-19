@@ -34,10 +34,11 @@
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
   - [1. Create Your Project](#1-create-your-project)
-  - [2. Install Dependencies](#2-install-dependencies)
-  - [3. Configure Environment](#3-configure-environment)
-  - [4. Start the Convex Backend](#4-start-the-convex-backend)
-  - [5. Start the Mobile App](#5-start-the-mobile-app)
+  - [2. Rename the App](#2-rename-the-app)
+  - [3. Install Dependencies](#3-install-dependencies)
+  - [4. Configure Environment](#4-configure-environment)
+  - [5. Start the Convex Backend (Docker)](#5-start-the-convex-backend-docker)
+  - [6. Start the Mobile App](#6-start-the-mobile-app)
 - [Available Scripts](#available-scripts)
 - [Environment Variables](#environment-variables)
 - [Testing](#testing)
@@ -293,7 +294,7 @@ Before you begin, make sure you have:
 | **pnpm** | 9+ | `corepack enable && corepack prepare pnpm@9 --activate` |
 | **Xcode** | 15+ (for iOS) | Mac App Store |
 | **Android Studio** | Latest (for Android) | [developer.android.com](https://developer.android.com/studio) |
-| **Convex CLI** | Latest | Installed automatically via `npx convex` |
+| **Docker** | 20+ | [docker.com](https://docs.docker.com/get-docker/) |
 
 > **iOS only?** Skip Android Studio. **Android only?** Skip Xcode.
 
@@ -311,7 +312,63 @@ cd my-app
 rm -rf .git && git init  # Start with a fresh history
 ```
 
-### 2. Install Dependencies
+### 2. Rename the App
+
+Replace the boilerplate identifiers with your own app name. The table below lists **every file** that needs updating:
+
+#### App name & slug
+
+Find-and-replace `AppBoilerplate` → `YourApp` and `app-boilerplate` → `your-app`:
+
+| File | What to change |
+|------|----------------|
+| `package.json` (root) | `"name": "app-boilerplate"` |
+| `apps/mobile/app.config.ts` | `appNames` object (`AppBoilerplate (Dev)`, etc.) and `slug: 'app-boilerplate'` |
+| `apps/mobile/assets/source/splash.svg` | `<text>AppBoilerplate</text>` — then run `pnpm generate:assets` |
+| `apps/mobile/src/shared/i18n/locales/en.json` | `"appName": "AppBoilerplate"` |
+| `apps/mobile/src/shared/i18n/locales/fr.json` | `"appName": "AppBoilerplate"` |
+
+#### Bundle ID / package name
+
+Replace `com.appboilerplate.app` with your reverse-domain identifier (e.g. `com.yourcompany.yourapp`):
+
+| File | What to change |
+|------|----------------|
+| `apps/mobile/app.config.ts` | `bundleIdentifier` (iOS) and `package` (Android) |
+| `.maestro/auth/login.yaml` | `appId:` line |
+| `.maestro/auth/register.yaml` | `appId:` line |
+| `.maestro/home/browse-items.yaml` | `appId:` line |
+
+#### Deep link scheme & domain
+
+Replace `appboilerplate://` with your custom scheme and `appboilerplate.dev` with your domain:
+
+| File | What to change |
+|------|----------------|
+| `apps/mobile/src/navigators/linking.ts` | `prefixes` array and comments |
+| `apps/mobile/app.config.ts` | `associatedDomains` (iOS) and `intentFilters` host (Android) |
+
+#### Quick one-liner (macOS/Linux)
+
+```bash
+# Replace identifiers across the entire project (review the diff afterwards!)
+LC_ALL=C find . -type f \
+  -not -path '*/node_modules/*' \
+  -not -path '*/.git/*' \
+  -not -path '*/pnpm-lock.yaml' \
+  -not -name '*.png' \
+  -exec sed -i '' \
+    -e 's/AppBoilerplate/YourApp/g' \
+    -e 's/app-boilerplate/your-app/g' \
+    -e 's/com\.appboilerplate\.app/com.yourcompany.yourapp/g' \
+    -e 's/com\.appboilerplate\.mobile/com.yourcompany.yourapp/g' \
+    -e 's/appboilerplate:\/\//yourapp:\/\//g' \
+    -e 's/appboilerplate\.dev/yourapp.com/g' {} +
+```
+
+> After renaming, regenerate assets: `cd apps/mobile && pnpm generate:assets`
+
+### 3. Install Dependencies
 
 ```bash
 pnpm install
@@ -319,7 +376,7 @@ pnpm install
 
 > This uses `node-linker=hoisted` (set in `.npmrc`) — required for React Native / Metro / Jest compatibility with pnpm.
 
-### 3. Configure Environment
+### 4. Configure Environment
 
 Copy the example env files and fill in your values:
 
@@ -332,36 +389,82 @@ Edit `apps/mobile/.env.development`:
 
 ```bash
 APP_ENV=development
-CONVEX_URL=https://your-deployment.convex.cloud   # From step 4
-EAS_PROJECT_ID=                                     # From `eas init` (optional)
+CONVEX_URL=http://127.0.0.1:3210   # Self-hosted Convex (from step 5)
+EAS_PROJECT_ID=                      # From `eas init` (optional)
 ```
 
-### 4. Start the Convex Backend
+### 5. Start the Convex Backend (Docker)
+
+This boilerplate uses a **self-hosted Convex** instance running locally via Docker. No cloud account needed.
+
+#### Start the Convex containers
 
 ```bash
-# First time: creates a Convex project and generates _generated/ types
 cd packages/backend
+
+# Download the official docker-compose file (first time only)
+npx degit get-convex/convex-backend/self-hosted/docker/docker-compose.yml docker-compose.yml
+
+# Pull images and start
+docker compose pull
+docker compose up -d
+```
+
+This starts two containers:
+
+| Container | Port | Purpose |
+|-----------|------|---------|
+| **convex-backend** | `3210` | API + real-time sync |
+| **convex-dashboard** | `6791` | Admin dashboard UI |
+
+#### Generate the admin key
+
+```bash
+docker compose exec backend ./generate_admin_key.sh
+```
+
+Save the output — you'll need it in the next step.
+
+#### Connect the CLI to your self-hosted instance
+
+Create `packages/backend/.env.local` (gitignored):
+
+```bash
+CONVEX_SELF_HOSTED_URL=http://127.0.0.1:3210
+CONVEX_SELF_HOSTED_ADMIN_KEY=<paste the admin key from above>
+```
+
+#### Push schema and start dev mode
+
+```bash
+# From packages/backend — syncs schema + functions and generates _generated/ types
 npx convex dev
 ```
 
-This will:
-1. Prompt you to log in to [Convex](https://convex.dev) (free tier)
-2. Create a new project (or link an existing one)
-3. Push the schema and functions to your deployment
-4. Generate `convex/_generated/` types locally
-5. Print your deployment URL — paste it into `.env.development` as `CONVEX_URL`
+The CLI reads `.env.local` automatically and targets your local Docker instance instead of Convex Cloud.
 
-Set up Convex Auth (one-time):
+#### Set up Convex Auth (one-time)
 
 ```bash
 npx @convex-dev/auth
 ```
 
-This generates the required `JWT_PRIVATE_KEY` and `JWKS` environment variables in your Convex dashboard.
+This generates `JWT_PRIVATE_KEY` and `JWKS`. For self-hosted, these are stored as environment variables in the Convex dashboard at [http://localhost:6791](http://localhost:6791).
 
-> **Keep `npx convex dev` running** — it watches for file changes and syncs them to your deployment in real time.
+> **Keep `npx convex dev` running** — it watches for file changes and syncs them to your local Convex instance in real time.
 
-### 5. Start the Mobile App
+#### Convex Cloud (alternative)
+
+If you prefer Convex Cloud over self-hosting, skip Docker and run:
+
+```bash
+cd packages/backend
+npx convex dev
+```
+
+This will prompt you to log in to [convex.dev](https://convex.dev) (free tier), create a project, and generate a cloud URL. Use that URL as `CONVEX_URL` in your `.env.development`.
+
+### 6. Start the Mobile App
 
 In a separate terminal:
 
@@ -426,7 +529,7 @@ Run these from **`packages/backend/`**:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `APP_ENV` | Yes | `development`, `staging`, or `production` |
-| `CONVEX_URL` | Yes | Your Convex deployment URL |
+| `CONVEX_URL` | Yes | `http://127.0.0.1:3210` (self-hosted) or your Convex Cloud URL |
 | `EAS_PROJECT_ID` | No | EAS Build project ID (from `eas init`) |
 
 Three example files are provided:
@@ -435,13 +538,24 @@ Three example files are provided:
 - `.env.staging.example` — staging builds
 - `.env.production.example` — production builds
 
-### Convex Backend (set in Convex dashboard)
+### Convex Backend — CLI (`packages/backend/.env.local`)
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `CONVEX_SELF_HOSTED_URL` | Yes (self-hosted) | `http://127.0.0.1:3210` |
+| `CONVEX_SELF_HOSTED_ADMIN_KEY` | Yes (self-hosted) | Generated by `./generate_admin_key.sh` |
+
+> When using Convex Cloud instead, omit these — the CLI uses cloud credentials from `npx convex dev` login.
+
+### Convex Backend — Auth (set in Convex dashboard)
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `JWT_PRIVATE_KEY` | Yes | Generated by `npx @convex-dev/auth` |
 | `JWKS` | Yes | Generated by `npx @convex-dev/auth` |
 | `SITE_URL` | No | Your app URL (needed for OAuth callbacks) |
+
+Access the self-hosted dashboard at [http://localhost:6791](http://localhost:6791) to manage environment variables.
 
 ---
 
