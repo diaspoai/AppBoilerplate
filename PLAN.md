@@ -9,7 +9,8 @@
 **Goal:** Empty monorepo that builds and runs Turborepo pipelines.
 
 **Tasks:**
-1. Initialize git repo with `.gitignore` (node_modules, .env files, .expo, _generated, .turbo)
+
+1. Initialize git repo with `.gitignore` (node_modules, .env files, .expo, \_generated, .turbo)
 2. Create root `package.json` with project name, private: true, scripts
 3. Create `pnpm-workspace.yaml` defining `apps/*` and `packages/*`
 4. Create `turbo.json` with pipelines: `dev`, `build`, `lint`, `test`
@@ -26,6 +27,7 @@
 **Goal:** Blank Expo app running inside the monorepo with dev build support.
 
 **Tasks:**
+
 1. Scaffold Expo app in `apps/mobile/` using `create-expo-app` with TypeScript template
 2. Add `expo-dev-client` dependency
 3. Configure `app.config.ts` (dynamic config replacing static `app.json` fields)
@@ -47,6 +49,7 @@
 **Goal:** Convex backend initialized with schema and wired to the mobile app.
 
 **Tasks:**
+
 1. Create `packages/backend/package.json` with `convex` dependency
 2. Create `packages/backend/tsconfig.json`
 3. Initialize Convex: `convex/schema.ts` with `users` and `items` tables
@@ -67,6 +70,7 @@
 **Goal:** Consistent code style enforced across both workspaces.
 
 **Tasks:**
+
 1. Create root `.eslintrc.js` extending `@react-native`, `prettier`, `plugin:react-hooks`
 2. Create root `.prettierrc` with project style rules
 3. Add ESLint + Prettier devDependencies to root `package.json`
@@ -85,6 +89,7 @@
 **Goal:** Typed, tiered environment variable system.
 
 **Tasks:**
+
 1. Create `.env.example` at root documenting all required variables (CONVEX_URL, etc.)
 2. Create `.env.development` (gitignored) with local Convex URL
 3. Update `app.config.ts` to read `process.env` and expose via `extra`
@@ -103,6 +108,7 @@
 **Goal:** Dark/light mode with React Navigation theme integration.
 
 **Tasks:**
+
 1. Create `src/shared/theme/colors.ts` — light and dark color palettes
 2. Create `src/shared/theme/spacing.ts` — spacing scale
 3. Create `src/shared/theme/typography.ts` — font sizes, weights
@@ -122,6 +128,7 @@
 **Goal:** Multi-language support with persistent language selection.
 
 **Tasks:**
+
 1. Add `react-i18next`, `i18next` dependencies to `apps/mobile/`
 2. Create `src/shared/i18n/locales/en.json` — English translations (app name, common labels)
 3. Create `src/shared/i18n/locales/fr.json` — French translations
@@ -141,6 +148,7 @@
 **Goal:** Full navigation structure with auth-gated routing.
 
 **Tasks:**
+
 1. Add `@react-navigation/native`, `@react-navigation/stack`, `@react-navigation/bottom-tabs` and peer dependencies
 2. Create stub screens: `LoginScreen`, `RegisterScreen`, `HomeScreen`, `ProfileScreen`, `SettingsScreen` (minimal, just screen name + theme-aware styling)
 3. Create `src/navigators/AuthNavigator.tsx` — Stack with Login, Register
@@ -161,6 +169,7 @@
 **Goal:** Working authentication flow with Convex Auth.
 
 **Tasks:**
+
 1. Configure `convex/auth.ts` — Convex Auth setup (email/password provider)
 2. Create `convex/http.ts` — HTTP router with auth callback routes
 3. Update `convex/_utils/auth.ts` — `authenticatedQuery` and `authenticatedMutation` wrappers using Convex Auth helpers
@@ -182,6 +191,7 @@
 **Goal:** Demonstrate Convex queries, mutations, and real-time subscriptions.
 
 **Tasks:**
+
 1. Create `convex/items/queries.ts` — `list` (all items for user), `getById`
 2. Create `convex/items/mutations.ts` — `create`, `update`, `delete` (all authenticated)
 3. Create `convex/items/subscriptions.ts` — real-time list subscription example
@@ -201,6 +211,7 @@
 **Goal:** Splash screen that hides after app is ready.
 
 **Tasks:**
+
 1. Add `expo-splash-screen` dependency
 2. Configure splash screen in `app.config.ts` (image, background color, resize mode)
 3. Add `SplashScreen.preventAutoHideAsync()` in `index.ts`
@@ -218,6 +229,7 @@
 **Goal:** Client-side notification setup with token storage in Convex.
 
 **Tasks:**
+
 1. Add `expo-notifications` and `expo-device` dependencies
 2. Create `src/shared/notifications/index.ts`:
    - `registerForPushNotifications()` — requests permission, gets Expo push token
@@ -238,6 +250,7 @@
 **Goal:** Small set of reusable, theme-aware UI components.
 
 **Tasks:**
+
 1. Create `src/shared/components/Button.tsx` — primary/secondary variants, theme-aware
 2. Create `src/shared/components/Input.tsx` — text input with label, error state
 3. Create `src/shared/components/Card.tsx` — container with shadow/border
@@ -255,6 +268,7 @@
 **Goal:** Jest configured with sample tests for both workspaces.
 
 **Tasks:**
+
 1. Add `jest`, `@testing-library/react-native`, `@testing-library/jest-native` to `apps/mobile/`
 2. Configure `jest.config.ts` in `apps/mobile/` (transform, moduleNameMapper for path aliases, setup file)
 3. Create `jest.setup.ts` — mock AsyncStorage, react-native-safe-area-context, navigation
@@ -275,6 +289,7 @@
 **Goal:** Maestro flows covering auth and core CRUD.
 
 **Tasks:**
+
 1. Create `.maestro/config.yaml` — app ID, device settings
 2. Create `.maestro/auth/login.yaml` — launch app, enter credentials, verify home screen
 3. Create `.maestro/auth/register.yaml` — register flow, verify navigation
@@ -292,6 +307,7 @@
 **Goal:** Automated CI pipeline for PRs and main branch.
 
 **Tasks:**
+
 1. Create `.github/workflows/ci.yml`:
    - Trigger: push to main, pull requests
    - Steps: checkout, setup Node, setup pnpm, install, `turbo lint`, `turbo test`, `turbo build`
@@ -312,6 +328,7 @@
 **Goal:** Complete the remaining feature screens with real functionality.
 
 **Tasks:**
+
 1. Update `ProfileScreen.tsx` — display user info from Convex, edit profile (name), call `updateProfile` mutation
 2. Update `SettingsScreen.tsx` — theme toggle (dark/light), language selector, logout button
 3. Wire settings to `useSettingsStore` and i18n
@@ -328,6 +345,7 @@
 **Goal:** Template repo is ready to clone and use.
 
 **Tasks:**
+
 1. Write `README.md`:
    - Project overview and feature list
    - Prerequisites (Node, pnpm, Expo CLI, Convex CLI, Maestro)
@@ -350,26 +368,26 @@
 
 ## Phase Summary
 
-| Phase | Name                     | Depends On | Key Deliverable                        |
-| ----- | ------------------------ | ---------- | -------------------------------------- |
-| 1     | Monorepo Scaffolding     | —          | Working Turborepo + pnpm workspace     |
-| 2     | Expo App                 | 1          | Running Expo dev build                 |
-| 3     | Convex Backend           | 1, 2       | Connected Convex backend               |
-| 4     | ESLint + Prettier        | 1, 2, 3    | Clean lint pass                        |
-| 5     | Environment Mgmt         | 2, 3       | Typed env access, .env tiers           |
-| 6     | Theme System             | 2          | Dark/light mode with persistence       |
-| 7     | i18n                     | 2, 6       | Multi-language support                 |
-| 8     | Navigation               | 2, 6       | Full navigator structure               |
-| 9     | Convex Auth              | 3, 8       | Working auth flow                      |
-| 10    | Sample CRUD              | 9          | Items feature with real-time           |
-| 11    | Splash Screen            | 2, 9       | Smooth app launch experience           |
-| 12    | Push Notifications       | 9          | Token registration + foreground        |
-| 13    | Shared Components        | 6, 8       | Reusable UI kit                        |
-| 14    | Unit Testing             | 10, 13     | Jest + convex-test passing             |
-| 15    | E2E Testing              | 10         | Maestro flows passing                  |
-| 16    | GitHub Actions           | 14         | CI pipeline running                    |
-| 17    | Profile & Settings       | 9, 7, 6    | Complete feature screens               |
-| 18    | Documentation            | All        | Ready-to-use template                  |
+| Phase | Name                 | Depends On | Key Deliverable                    |
+| ----- | -------------------- | ---------- | ---------------------------------- |
+| 1     | Monorepo Scaffolding | —          | Working Turborepo + pnpm workspace |
+| 2     | Expo App             | 1          | Running Expo dev build             |
+| 3     | Convex Backend       | 1, 2       | Connected Convex backend           |
+| 4     | ESLint + Prettier    | 1, 2, 3    | Clean lint pass                    |
+| 5     | Environment Mgmt     | 2, 3       | Typed env access, .env tiers       |
+| 6     | Theme System         | 2          | Dark/light mode with persistence   |
+| 7     | i18n                 | 2, 6       | Multi-language support             |
+| 8     | Navigation           | 2, 6       | Full navigator structure           |
+| 9     | Convex Auth          | 3, 8       | Working auth flow                  |
+| 10    | Sample CRUD          | 9          | Items feature with real-time       |
+| 11    | Splash Screen        | 2, 9       | Smooth app launch experience       |
+| 12    | Push Notifications   | 9          | Token registration + foreground    |
+| 13    | Shared Components    | 6, 8       | Reusable UI kit                    |
+| 14    | Unit Testing         | 10, 13     | Jest + convex-test passing         |
+| 15    | E2E Testing          | 10         | Maestro flows passing              |
+| 16    | GitHub Actions       | 14         | CI pipeline running                |
+| 17    | Profile & Settings   | 9, 7, 6    | Complete feature screens           |
+| 18    | Documentation        | All        | Ready-to-use template              |
 
 ---
 
