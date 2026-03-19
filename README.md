@@ -49,8 +49,10 @@
 - [Internationalization (i18n)](#internationalization-i18n)
 - [Asset Pipeline](#asset-pipeline)
 - [Architecture Decision Records](#architecture-decision-records)
+- [Product Management](#product-management)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
+- [Security](#security)
 - [License](#license)
 
 ---
@@ -134,12 +136,15 @@ AppBoilerplate/
 │       │   └── notifications/  #   Push notification mutations/actions
 │       └── vitest.config.ts    #   Vitest with edge-runtime
 ├── docs/
-│   └── adr/                    # Architecture Decision Records
+│   ├── adr/                    # Architecture Decision Records (13 ADRs)
+│   └── pm/                     # Product management (vision, roadmap, improvements)
 ├── .github/
 │   └── workflows/
 │       ├── ci.yml              # Lint + type-check + test on every PR
 │       └── e2e.yml             # Nightly Maestro E2E on iOS Simulator
 ├── .maestro/                   # Maestro E2E flow files
+├── CONTRIBUTING.md              # Contribution guide (branch, commit, PR, review)
+├── SECURITY.md                 # Security policy and checklist
 ├── turbo.json                  # Turborepo task config
 ├── pnpm-workspace.yaml         # Workspace definitions
 └── .npmrc                      # node-linker=hoisted (critical for RN)
@@ -821,6 +826,30 @@ Every significant architectural choice is documented in [`docs/adr/`](docs/adr/R
 
 ---
 
+## Product Management
+
+Product strategy, roadmap, and improvement proposals live in [`docs/pm/`](docs/pm/README.md):
+
+| Document | What it covers |
+|----------|---------------|
+| [Product Vision](docs/pm/PRODUCT_VISION.md) | Mission, North Star Metric, target users, competitive landscape |
+| [Roadmap](docs/pm/ROADMAP.md) | 22 RICE-scored features across 3 quarters, MoSCoW prioritisation |
+| [Improvements](docs/pm/IMPROVEMENTS.md) | 20 detailed proposals (IMP-001 → IMP-020) with effort estimates |
+| [Feature Metrics](docs/pm/FEATURE_SUCCESS_METRICS.md) | Success metrics per feature, fork-to-feature funnel |
+
+### Improvement Priorities at a Glance
+
+| Priority | Examples |
+|----------|---------|
+| **P0** | Error boundary, settings UI (theme/language toggles), form validation |
+| **P1** | Shared component library, Sentry scaffold, profile screen, offline handling |
+| **P2** | Android CI/E2E, onboarding flow, accessibility audit |
+| **P3** | OAuth examples, RTL support, performance monitoring |
+
+See the full [ROADMAP.md](docs/pm/ROADMAP.md) for RICE scores and quarterly plans.
+
+---
+
 ## Troubleshooting
 
 ### `pnpm install` fails with React Native errors
@@ -870,12 +899,35 @@ Push notifications require a physical device. The Expo push token registration w
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feat/my-feature`
-3. Make your changes
-4. Run the full check: `pnpm lint && pnpm build && pnpm test`
-5. Commit following [Conventional Commits](https://www.conventionalcommits.org/): `feat(scope): description`
-6. Open a Pull Request
+We welcome contributions! See [**CONTRIBUTING.md**](CONTRIBUTING.md) for the full guide, including:
+
+- Branch naming conventions and commit message format
+- Code standards (TypeScript, React Native, Convex)
+- Testing requirements per layer
+- Pull request process and review checklist
+- When and how to write Architecture Decision Records
+
+**Quick start**:
+
+```bash
+git checkout -b feat/my-feature
+# Make changes...
+pnpm lint && pnpm build && pnpm test   # Must pass before pushing
+git commit -m "feat(scope): description"
+# Open a Pull Request
+```
+
+---
+
+## Security
+
+See [**SECURITY.md**](SECURITY.md) for:
+
+- How to report vulnerabilities (private disclosure)
+- Security architecture (auth, authorization, data, secrets)
+- Secrets inventory and where they live
+- Security checklist for forked projects
+- Known limitations and mitigations
 
 ---
 
