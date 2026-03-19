@@ -11,6 +11,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { env } from '@/shared/env';
 import { I18nProvider } from '@/shared/i18n/I18nProvider';
 import { ThemeProvider, useNavigationTheme, useTheme } from '@/shared/theme/ThemeProvider';
+import { useNotifications } from '@/shared/notifications/useNotifications';
 import { linking } from '@/navigators/linking';
 import { RootNavigator } from '@/navigators/RootNavigator';
 
@@ -24,6 +25,10 @@ function AppContent() {
   const navigationTheme = useNavigationTheme();
   const { colors } = useTheme();
   const [appReady, setAppReady] = useState(false);
+
+  // Register for push notifications and wire up listeners.
+  // Runs only when the user is authenticated; no-op otherwise.
+  useNotifications();
 
   useEffect(() => {
     // Perform any async initialisation here (fonts, assets, etc.)

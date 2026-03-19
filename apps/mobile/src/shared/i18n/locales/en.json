@@ -43,5 +43,10 @@
     "themeLight": "Light",
     "themeDark": "Dark",
     "themeSystem": "System"
+  },
+  "notifications": {
+    "permissionTitle": "Enable Notifications",
+    "permissionBody": "Stay up to date with the latest activity.",
+    "permissionDenied": "Notifications are disabled. Enable them in your device settings."
   }
 }
