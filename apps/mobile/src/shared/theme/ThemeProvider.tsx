@@ -1,3 +1,4 @@
+import { DefaultTheme, DarkTheme } from '@react-navigation/native';
 import React, { createContext, useContext, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 
@@ -54,14 +55,17 @@ export function useTheme(): ThemeContextValue {
 }
 
 /**
- * Returns React Navigation-compatible theme object.
- * Pass this to NavigationContainer's `theme` prop in Phase 8.
+ * Returns a React Navigation-compatible Theme object.
+ * Pass this to NavigationContainer's `theme` prop.
  */
 export function useNavigationTheme() {
   const { colors, isDark } = useTheme();
+  const base = isDark ? DarkTheme : DefaultTheme;
   return {
+    ...base,
     dark: isDark,
     colors: {
+      ...base.colors,
       primary: colors.primary,
       background: colors.background,
       card: colors.card,
