@@ -1,0 +1,25 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.ts",
+  "scripts": {
+    "dev": "expo start",
+    "build": "tsc --noEmit",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "expo": "~53.0.0",
+    "expo-dev-client": "~5.1.0",
+    "expo-status-bar": "~2.2.0",
+    "react": "19.0.0",
+    "react-native": "0.79.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.0",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "typescript": "~5.8.3",
+    "@types/react": "~19.0.10"
+  }
+}
