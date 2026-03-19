@@ -1,0 +1,40 @@
+appId: com.appboilerplate.mobile
+---
+# Browse, create, toggle, and delete items on the Home screen
+# Prerequisite: user is already authenticated (run auth/register.yaml first)
+- launchApp
+
+# Ensure Home screen is visible
+- assertVisible:
+    id: "home-screen"
+    timeout: 5000
+
+# --- Create a new item ---
+- tapOn:
+    id: "new-item-input"
+- inputText: "E2E Test Item"
+
+- tapOn:
+    id: "add-item-button"
+
+# Verify item appears in the list
+- assertVisible: "E2E Test Item"
+
+# --- Toggle item completion ---
+- tapOn:
+    id: "item-checkbox-0"
+
+# Verify the item is now checked (accessibilityState)
+- assertVisible:
+    id: "item-checkbox-0"
+    enabled: true
+
+# --- Delete the item ---
+- longPressOn: "E2E Test Item"
+- tapOn: "Delete"
+
+# Confirm deletion alert
+- tapOn: "Delete"
+
+# Verify the item is gone
+- assertNotVisible: "E2E Test Item"

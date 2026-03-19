@@ -1,0 +1,29 @@
+appId: com.appboilerplate.mobile
+---
+# Log in with an existing account
+# Prerequisite: the register flow must have run first (or a seed account must exist)
+- launchApp:
+    clearState: true
+
+# Wait for the Login screen
+- assertVisible:
+    id: "login-email-input"
+    timeout: 5000
+
+# Fill in credentials
+- tapOn:
+    id: "login-email-input"
+- inputText: "e2e-test@example.com"
+
+- tapOn:
+    id: "login-password-input"
+- inputText: "Password123!"
+
+# Submit
+- tapOn:
+    id: "login-submit-button"
+
+# Verify we land on the Home screen
+- assertVisible:
+    id: "home-screen"
+    timeout: 10000

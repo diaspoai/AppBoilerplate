@@ -1,0 +1,29 @@
+appId: com.appboilerplate.mobile
+---
+# Register a new account
+- launchApp:
+    clearState: true
+
+# Wait for the auth screen to load
+- assertVisible: "Don't have an account? Register"
+
+# Navigate to Register screen
+- tapOn: "Don't have an account? Register"
+
+# Fill in registration form
+- tapOn:
+    id: "register-email-input"
+- inputText: "e2e-test@example.com"
+
+- tapOn:
+    id: "register-password-input"
+- inputText: "Password123!"
+
+# Submit
+- tapOn:
+    id: "register-submit-button"
+
+# Verify we land on the Home screen
+- assertVisible:
+    id: "home-screen"
+    timeout: 10000
