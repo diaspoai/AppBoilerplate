@@ -19,7 +19,8 @@
     "password": "Password",
     "forgotPassword": "Forgot password?",
     "noAccount": "Don't have an account?",
-    "alreadyHaveAccount": "Already have an account?"
+    "alreadyHaveAccount": "Already have an account?",
+    "signOutConfirm": "Are you sure you want to sign out?"
   },
   "home": {
     "title": "Home",

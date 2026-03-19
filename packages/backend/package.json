@@ -10,6 +10,7 @@
     "test": "vitest --passWithNoTests"
   },
   "dependencies": {
+    "@convex-dev/auth": "^0.0.91",
     "convex": "^1.17.4"
   },
   "devDependencies": {

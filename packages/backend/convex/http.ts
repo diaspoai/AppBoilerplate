@@ -1,11 +1,13 @@
 import { httpRouter } from 'convex/server';
 
+import { auth } from './auth';
+
 const http = httpRouter();
 
-// Auth callback routes will be registered here in Phase 9
-// when Convex Auth is integrated.
-// Example:
-// import { auth } from './auth';
-// auth.addHttpRoutes(http);
+/**
+ * Register Convex Auth HTTP routes.
+ * Handles OAuth callbacks and email verification flows.
+ */
+auth.addHttpRoutes(http);
 
 export default http;

@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useConvexAuth } from 'convex/react';
 
 import { AuthNavigator } from './AuthNavigator';
 import { MainNavigator } from './MainNavigator';
@@ -7,14 +8,17 @@ import type { RootStackParamList } from './types';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 /**
- * RootNavigator decides which stack to show based on auth state.
+ * RootNavigator gates navigation based on Convex Auth session state.
  *
- * Currently defaults to Auth stack.
- * TODO: Replace `isAuthenticated` with Convex Auth session check (Phase: Convex Auth).
+ * - isLoading: splash is still visible (handled in app.tsx), render nothing
+ * - isAuthenticated: show the main app (tabs)
+ * - not authenticated: show the auth stack (login/register)
  */
-const isAuthenticated = false;
-
 export function RootNavigator() {
+  const { isLoading, isAuthenticated } = useConvexAuth();
+
+  if (isLoading) return null;
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isAuthenticated ? (

@@ -19,7 +19,8 @@
     "password": "Mot de passe",
     "forgotPassword": "Mot de passe oublié ?",
     "noAccount": "Pas encore de compte ?",
-    "alreadyHaveAccount": "Déjà un compte ?"
+    "alreadyHaveAccount": "Déjà un compte ?",
+    "signOutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
   },
   "home": {
     "title": "Accueil",
