@@ -306,7 +306,7 @@ Before you begin, make sure you have:
 Click **"Use this template"** on GitHub, or clone directly:
 
 ```bash
-git clone https://github.com/AssetsCamaroes/AppBoilerplate.git my-app
+git clone https://github.com/diaspoai/AppBoilerplate.git my-app
 cd my-app
 rm -rf .git && git init  # Start with a fresh history
 ```
