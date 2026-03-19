@@ -24,7 +24,12 @@
   },
   "home": {
     "title": "Accueil",
-    "welcome": "Bon retour !"
+    "welcome": "Bon retour !",
+    "items": "Éléments",
+    "noItems": "Aucun élément pour l'instant. Ajoutez-en un !",
+    "addItem": "Ajouter",
+    "itemTitlePlaceholder": "Que faut-il faire ?",
+    "deleteItemConfirm": "Supprimer cet élément ?"
   },
   "profile": {
     "title": "Profil",
