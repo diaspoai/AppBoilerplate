@@ -1,4 +1,4 @@
-appId: com.appboilerplate.mobile
+appId: com.appboilerplate.app
 ---
 # Browse, create, toggle, and delete items on the Home screen
 # Prerequisite: user is already authenticated (run auth/register.yaml first)
