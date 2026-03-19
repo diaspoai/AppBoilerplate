@@ -4,7 +4,8 @@
   "private": true,
   "main": "index.ts",
   "scripts": {
-    "dev": "expo start",
+    "dev": "APP_ENV=development expo start",
+    "dev:staging": "APP_ENV=staging expo start",
     "build": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest --passWithNoTests"
@@ -20,8 +21,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",
+    "@types/react": "~19.0.10",
     "babel-plugin-module-resolver": "^5.0.2",
-    "typescript": "~5.8.3",
-    "@types/react": "~19.0.10"
+    "dotenv": "^16.4.7",
+    "typescript": "~5.8.3"
   }
 }

@@ -1,21 +1,29 @@
 import Constants from 'expo-constants';
 
-/**
- * Typed environment variables exposed via app.config.ts `extra`.
- * All values are validated at module load time so missing config
- * fails early rather than at runtime.
- */
-function getEnvVar(key: string): string {
+type AppEnv = 'development' | 'staging' | 'production';
+
+function getExtra<T>(key: string): T {
   const value = Constants.expoConfig?.extra?.[key];
-  if (!value || typeof value !== 'string') {
+  if (value === undefined || value === null || value === '') {
     throw new Error(
-      `Missing environment variable: ${key}. ` +
-        'Check your .env.development file and app.config.ts.',
+      `Missing env var: "${key}". ` +
+        `Copy apps/mobile/.env.development.example to apps/mobile/.env.development and fill in values.`,
     );
   }
-  return value;
+  return value as T;
 }
 
+/**
+ * Typed, validated environment variables.
+ * Values come from app.config.ts `extra`, which reads from .env.{APP_ENV}.
+ *
+ * Add new variables here as the project grows.
+ */
 export const env = {
-  CONVEX_URL: getEnvVar('convexUrl'),
+  APP_ENV: getExtra<AppEnv>('appEnv'),
+  CONVEX_URL: getExtra<string>('convexUrl'),
 } as const;
+
+export const isDev = env.APP_ENV === 'development';
+export const isStaging = env.APP_ENV === 'staging';
+export const isProd = env.APP_ENV === 'production';
