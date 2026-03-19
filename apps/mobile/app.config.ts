@@ -31,6 +31,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.appboilerplate.app',
+    // Universal Links — configure APPLE_APP_ID in your server's apple-app-site-association file.
+    associatedDomains: ['applinks:appboilerplate.dev'],
+    infoPlist: {
+      // Allow receiving remote push notifications while the app is in the background.
+      UIBackgroundModes: ['remote-notification'],
+    },
   },
   android: {
     adaptiveIcon: {
@@ -38,8 +44,35 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#ffffff',
     },
     package: 'com.appboilerplate.app',
+    // Android App Links — auto-verify redirects https://appboilerplate.dev/* into the app.
+    intentFilters: [
+      {
+        action: 'VIEW',
+        autoVerify: true,
+        data: [
+          {
+            scheme: 'https',
+            host: 'appboilerplate.dev',
+            pathPrefix: '/',
+          },
+        ],
+        category: ['BROWSABLE', 'DEFAULT'],
+      },
+    ],
   },
-  plugins: ['expo-dev-client', 'expo-splash-screen'],
+  plugins: [
+    'expo-dev-client',
+    'expo-splash-screen',
+    [
+      'expo-notifications',
+      {
+        // Android: provide a white monochrome PNG at assets/notification-icon.png for best results.
+        // icon: './assets/notification-icon.png',
+        color: '#6366F1',
+        defaultChannel: 'default',
+      },
+    ],
+  ],
   extra: {
     appEnv,
     convexUrl: process.env.CONVEX_URL ?? '',

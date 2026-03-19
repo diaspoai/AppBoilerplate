@@ -43,5 +43,10 @@
     "themeLight": "Clair",
     "themeDark": "Sombre",
     "themeSystem": "Système"
+  },
+  "notifications": {
+    "permissionTitle": "Activer les notifications",
+    "permissionBody": "Restez informé des dernières activités.",
+    "permissionDenied": "Les notifications sont désactivées. Activez-les dans les paramètres de votre appareil."
   }
 }
