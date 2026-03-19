@@ -20,6 +20,7 @@
     "expo-constants": "~17.1.6",
     "expo-dev-client": "~5.1.0",
     "expo-localization": "^55.0.9",
+    "expo-splash-screen": "^55.0.12",
     "expo-status-bar": "~2.2.0",
     "i18next": "^25.8.19",
     "react": "19.0.0",

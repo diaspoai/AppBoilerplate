@@ -38,7 +38,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     package: 'com.appboilerplate.app',
   },
-  plugins: ['expo-dev-client'],
+  plugins: ['expo-dev-client', 'expo-splash-screen'],
   extra: {
     appEnv,
     convexUrl: process.env.CONVEX_URL ?? '',
