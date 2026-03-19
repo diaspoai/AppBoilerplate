@@ -12,24 +12,24 @@ A template repository boilerplate for scaffolding React Native mobile apps, buil
 
 ## Feature Set
 
-| Feature              | Choice                                      |
-| -------------------- | ------------------------------------------- |
-| Framework            | Expo with dev builds (`expo-dev-client`)    |
-| Backend              | Convex (provider + auth + sample CRUD + RT) |
-| Navigation           | React Navigation (Stack, Tabs, Drawer)      |
-| Auth                 | Convex Auth                                 |
-| Client state         | Zustand                                     |
-| i18n                 | react-i18next                               |
-| Theming              | Dark/light mode                             |
-| Splash screen        | expo-splash-screen                          |
-| Env management       | .env tiers (dev, staging, prod)             |
-| Push notifications   | expo-notifications (client-side setup)      |
-| Deep linking         | React Navigation linking config             |
-| Unit testing         | Jest + React Native Testing Library         |
-| E2E testing          | Maestro                                     |
-| Linting              | ESLint + Prettier                           |
-| CI/CD                | GitHub Actions (lint, test, build)          |
-| Monorepo             | Turborepo + pnpm                            |
+| Feature            | Choice                                      |
+| ------------------ | ------------------------------------------- |
+| Framework          | Expo with dev builds (`expo-dev-client`)    |
+| Backend            | Convex (provider + auth + sample CRUD + RT) |
+| Navigation         | React Navigation (Stack, Tabs, Drawer)      |
+| Auth               | Convex Auth                                 |
+| Client state       | Zustand                                     |
+| i18n               | react-i18next                               |
+| Theming            | Dark/light mode                             |
+| Splash screen      | expo-splash-screen                          |
+| Env management     | .env tiers (dev, staging, prod)             |
+| Push notifications | expo-notifications (client-side setup)      |
+| Deep linking       | React Navigation linking config             |
+| Unit testing       | Jest + React Native Testing Library         |
+| E2E testing        | Maestro                                     |
+| Linting            | ESLint + Prettier                           |
+| CI/CD              | GitHub Actions (lint, test, build)          |
+| Monorepo           | Turborepo + pnpm                            |
 
 ---
 
@@ -209,12 +209,14 @@ Features never import from other features. They only import from `shared/` or ca
 ## Testing
 
 ### Unit Testing
+
 - Jest + `@testing-library/react-native` in `apps/mobile/`
 - `convex-test` in `packages/backend/`
 - Sample test per feature
 - Turborepo `test` pipeline runs both in parallel
 
 ### E2E Testing (Maestro)
+
 ```
 .maestro/
 ├── auth/
@@ -224,6 +226,7 @@ Features never import from other features. They only import from `shared/` or ca
 │   └── browse-items.yaml
 └── config.yaml
 ```
+
 - Organized by feature, mirroring `features/` structure
 - Runs against Expo dev build on simulator
 - Separate from Turborepo pipeline (requires running app)
@@ -233,12 +236,14 @@ Features never import from other features. They only import from `shared/` or ca
 ## CI/CD — GitHub Actions
 
 ### `ci.yml` (push to main, pull requests)
+
 1. `pnpm install`
 2. `turbo lint`
 3. `turbo test` (unit: mobile + backend)
 4. `turbo build` (type-check both workspaces)
 
 ### `e2e.yml` (manual / nightly)
+
 1. Build Expo dev client on simulator
 2. Run Maestro flows
 
@@ -256,21 +261,21 @@ E2E is separate — too slow for PR checks. `turbo build` in CI serves as a type
 
 ## Decision Log
 
-| #  | Decision                       | Alternatives Considered                      | Rationale                                                              |
-| -- | ------------------------------ | -------------------------------------------- | ---------------------------------------------------------------------- |
-| 1  | Expo-only (no bare RN)         | Expo + bare RN CLI                           | Simpler scope, dev builds cover native module needs                    |
-| 2  | Convex moderate integration    | Minimal / Full integration                   | CRUD + auth + real-time demonstrates patterns without overwhelming     |
-| 3  | React Navigation               | Expo Router                                  | User preference; imperative control, more flexible                     |
-| 4  | Template repo (no CLI)         | Interactive CLI, CLI + config flags           | Lower maintenance, simpler to start; CLI can come later                |
-| 5  | Convex Auth                    | Clerk + Convex, both as option               | Fewer dependencies, tighter Convex integration                         |
-| 6  | Zustand for client state       | React built-ins, no prescribed pattern       | Lightweight, minimal boilerplate, scales well                          |
-| 7  | Flat Feature Modules           | Domain packages, layered architecture        | YAGNI — simplest structure that scales; extract later if needed        |
-| 8  | Turborepo + pnpm               | Yarn/npm workspaces only, yarn berry         | Fast caching, excellent monorepo DX, strict dependency management      |
-| 9  | Maestro for E2E                | Detox                                        | YAML-based simplicity, great Expo dev build support                    |
-| 10 | ESLint + Prettier              | Biome, ESLint + Prettier + Husky             | Widely supported, familiar; no pre-commit hooks to reduce friction     |
-| 11 | GitHub Actions only            | + EAS Build, + EAS Submit                    | Keep CI simple; EAS available for manual use via eas.json              |
-| 12 | iOS 15+ / Android SDK 24+     | More modern targets                          | Reasonable defaults, broad device coverage                             |
-| 13 | E2E in separate CI workflow    | Blocking on PRs                              | Too slow for PR checks; nightly/manual is pragmatic                    |
+| #   | Decision                    | Alternatives Considered                | Rationale                                                          |
+| --- | --------------------------- | -------------------------------------- | ------------------------------------------------------------------ |
+| 1   | Expo-only (no bare RN)      | Expo + bare RN CLI                     | Simpler scope, dev builds cover native module needs                |
+| 2   | Convex moderate integration | Minimal / Full integration             | CRUD + auth + real-time demonstrates patterns without overwhelming |
+| 3   | React Navigation            | Expo Router                            | User preference; imperative control, more flexible                 |
+| 4   | Template repo (no CLI)      | Interactive CLI, CLI + config flags    | Lower maintenance, simpler to start; CLI can come later            |
+| 5   | Convex Auth                 | Clerk + Convex, both as option         | Fewer dependencies, tighter Convex integration                     |
+| 6   | Zustand for client state    | React built-ins, no prescribed pattern | Lightweight, minimal boilerplate, scales well                      |
+| 7   | Flat Feature Modules        | Domain packages, layered architecture  | YAGNI — simplest structure that scales; extract later if needed    |
+| 8   | Turborepo + pnpm            | Yarn/npm workspaces only, yarn berry   | Fast caching, excellent monorepo DX, strict dependency management  |
+| 9   | Maestro for E2E             | Detox                                  | YAML-based simplicity, great Expo dev build support                |
+| 10  | ESLint + Prettier           | Biome, ESLint + Prettier + Husky       | Widely supported, familiar; no pre-commit hooks to reduce friction |
+| 11  | GitHub Actions only         | + EAS Build, + EAS Submit              | Keep CI simple; EAS available for manual use via eas.json          |
+| 12  | iOS 15+ / Android SDK 24+   | More modern targets                    | Reasonable defaults, broad device coverage                         |
+| 13  | E2E in separate CI workflow | Blocking on PRs                        | Too slow for PR checks; nightly/manual is pragmatic                |
 
 ---
 
