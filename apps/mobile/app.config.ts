@@ -23,9 +23,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
   splash: {
+    // Generated from assets/source/splash.svg — run `pnpm generate:assets` to regenerate.
     image: './assets/splash.png',
-    resizeMode: 'contain',
-    backgroundColor: '#ffffff',
+    resizeMode: 'cover',
+    backgroundColor: '#0F172A',
   },
   ios: {
     supportsTablet: false,
