@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="224" fill="#0F172A"/>
+  <!-- Outer ring -->
+  <circle cx="512" cy="512" r="320" fill="none" stroke="#6366F1" stroke-width="40"/>
+  <!-- Inner dot -->
+  <circle cx="512" cy="512" r="120" fill="#6366F1"/>
+  <!-- Letter A — replace with your brand mark -->
+  <text
+    x="512"
+    y="548"
+    font-family="system-ui, -apple-system, sans-serif"
+    font-size="180"
+    font-weight="700"
+    text-anchor="middle"
+    fill="#FFFFFF"
+  >AB</text>
+</svg>
