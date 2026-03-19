@@ -1,12 +1,19 @@
+import { ConvexProvider, ConvexReactClient } from 'convex/react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { env } from '@/shared/env';
+
+const convex = new ConvexReactClient(env.CONVEX_URL);
+
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>AppBoilerplate</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ConvexProvider client={convex}>
+      <View style={styles.container}>
+        <Text style={styles.text}>AppBoilerplate</Text>
+        <StatusBar style="auto" />
+      </View>
+    </ConvexProvider>
   );
 }
 
