@@ -24,7 +24,12 @@
   },
   "home": {
     "title": "Home",
-    "welcome": "Welcome back!"
+    "welcome": "Welcome back!",
+    "items": "Items",
+    "noItems": "No items yet. Add one below!",
+    "addItem": "Add item",
+    "itemTitlePlaceholder": "What needs to be done?",
+    "deleteItemConfirm": "Delete this item?"
   },
   "profile": {
     "title": "Profile",
