@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "convex dev",
+    "build": "echo 'Backend: run pnpm dev to generate Convex types before type-checking'",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "test": "vitest --passWithNoTests"
+  },
+  "dependencies": {
+    "convex": "^1.17.4"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3",
+    "@convex-dev/eslint-plugin": "^1.2.1"
+  }
+}
