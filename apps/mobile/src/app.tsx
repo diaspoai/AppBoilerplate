@@ -1,5 +1,7 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ConvexAuthProvider } from '@convex-dev/auth/react';
 import { NavigationContainer } from '@react-navigation/native';
-import { ConvexProvider, ConvexReactClient } from 'convex/react';
+import { ConvexReactClient } from 'convex/react';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useState } from 'react';
@@ -50,13 +52,13 @@ function AppContent() {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <ConvexProvider client={convex}>
+      <ConvexAuthProvider client={convex} storage={AsyncStorage}>
         <ThemeProvider>
           <I18nProvider>
             <AppContent />
           </I18nProvider>
         </ThemeProvider>
-      </ConvexProvider>
+      </ConvexAuthProvider>
     </SafeAreaProvider>
   );
 }
