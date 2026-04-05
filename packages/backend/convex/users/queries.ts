@@ -1,6 +1,6 @@
 // Note: './_generated/server' is created by running `npx convex dev`.
 // Run `pnpm dev` from packages/backend before type-checking this file.
-import { query } from './_generated/server';
+import { query } from '../_generated/server';
 
 import { requireAuthUserId } from '../_utils/auth';
 
