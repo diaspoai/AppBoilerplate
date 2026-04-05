@@ -1,7 +1,7 @@
 // Note: './_generated/server' is created by running `npx convex dev`.
 // Run `pnpm dev` from packages/backend before type-checking this file.
 import { v } from 'convex/values';
-import { mutation } from './_generated/server';
+import { mutation } from '../_generated/server';
 
 import { requireAuthUserId } from '../_utils/auth';
 
