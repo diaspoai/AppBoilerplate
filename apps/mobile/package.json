@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "APP_ENV=development expo start",
     "dev:staging": "APP_ENV=staging expo start",
-    "run:ios": "EXPO_NO_CAPABILITY_SYNC=1 expo run:ios --simulator",
+    "run:ios": "EXPO_NO_CAPABILITY_SYNC=1 expo run:ios",
     "run:android": "expo run:android",
     "build": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx",
