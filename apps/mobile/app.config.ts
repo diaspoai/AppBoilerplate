@@ -63,6 +63,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     'expo-dev-client',
     'expo-splash-screen',
+    'expo-localization',
     [
       'expo-notifications',
       {
