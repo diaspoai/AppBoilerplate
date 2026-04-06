@@ -8,6 +8,8 @@
     "dev:staging": "APP_ENV=staging expo start",
     "run:ios": "EXPO_NO_CAPABILITY_SYNC=1 expo run:ios",
     "run:android": "expo run:android",
+    "reset:ios": "rm -rf ios && EXPO_NO_CAPABILITY_SYNC=1 expo run:ios",
+    "reset:android": "rm -rf android && expo run:android",
     "build": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest",
