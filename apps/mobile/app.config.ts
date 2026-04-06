@@ -31,11 +31,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: false,
     bundleIdentifier: 'com.appboilerplate.app',
-    // Universal Links — configure APPLE_APP_ID in your server's apple-app-site-association file.
-    associatedDomains: ['applinks:appboilerplate.dev'],
+    // Universal Links — only in staging/production (requires code signing).
+    ...(appEnv !== 'development' && {
+      associatedDomains: ['applinks:appboilerplate.dev'],
+    }),
     infoPlist: {
-      // Allow receiving remote push notifications while the app is in the background.
-      UIBackgroundModes: ['remote-notification'],
+      // Remote notifications — only in staging/production (requires entitlements + physical device).
+      ...(appEnv !== 'development' && {
+        UIBackgroundModes: ['remote-notification'],
+      }),
     },
   },
   android: {
