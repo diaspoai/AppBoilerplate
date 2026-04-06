@@ -103,6 +103,8 @@ The default `CONVEX_URL=http://127.0.0.1:3210` in that file already points to yo
 
 Open a **new terminal** (keep the backend one running).
 
+> If you see `node_modules missing`, run `pnpm install` from the **root** of the project first (`cd` back to `my-app` and run it there).
+
 #### iOS
 
 > **One-time Xcode setup**: Open Xcode → Settings → Accounts → click `+` → sign in with any Apple ID (a free account works). That's it.
