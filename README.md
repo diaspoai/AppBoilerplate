@@ -471,26 +471,40 @@ This will prompt you to log in to [convex.dev](https://convex.dev) (free tier), 
 
 ### 6. Start the Mobile App
 
-In a separate terminal:
+This project uses **Expo dev client** (`expo-dev-client`), which means you must build and install the native app on your simulator/device **before** starting the Metro bundler.
+
+#### First time — build the dev client
 
 ```bash
-# From the repo root
+cd apps/mobile
+
+# iOS (requires Xcode)
+npx expo run:ios
+
+# Android (requires Android Studio)
+npx expo run:android
+```
+
+> This will prebuild the native project, compile, install the dev client on your simulator/emulator, and start Metro — all in one command. The first build takes a few minutes.
+
+#### Subsequent runs — start Metro only
+
+Once the dev client is installed, you don't need to rebuild unless you add a new native dependency. Just start Metro:
+
+```bash
+# From the repo root (starts both backend + mobile via Turborepo)
 pnpm dev
 ```
 
-Or start just the mobile app:
+Or from `apps/mobile/` alone:
 
 ```bash
-# Build the dev client (first time only)
-cd apps/mobile
-pnpm expo prebuild --platform ios --clean
-pnpm expo run:ios
-
-# Subsequent runs — start the Metro bundler
-pnpm expo start
+pnpm dev          # → APP_ENV=development expo start
 ```
 
-Scan the QR code with Expo Go, or press `i` for iOS Simulator / `a` for Android Emulator.
+Then press `i` for iOS Simulator or `a` for Android Emulator in the Metro terminal.
+
+> **Troubleshooting:** If you see `CommandError: No development build (...) is installed`, it means the dev client hasn't been built yet. Go back to the "First time" step above and run `npx expo run:ios` (or `run:android`).
 
 ---
 
@@ -859,6 +873,17 @@ Ensure `.npmrc` contains `node-linker=hoisted`. This is critical for Metro and J
 ### `tsc --noEmit` fails with "cannot find module 'convex/_generated/...'"
 
 The type stubs in `apps/mobile/convex/_generated/` must exist. They're committed to the repo — if missing, re-clone or run `git checkout -- apps/mobile/convex/_generated/`.
+
+### `No development build (com.xxx.app) is installed`
+
+This means the native dev client hasn't been built yet. `expo-dev-client` requires a native build — `expo start` / `pnpm dev` alone only starts Metro and won't work without it.
+
+```bash
+cd apps/mobile
+npx expo run:ios      # or npx expo run:android
+```
+
+Once built, subsequent runs only need `pnpm dev` (Metro bundler).
 
 ### Backend tests are skipped
 
