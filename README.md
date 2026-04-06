@@ -19,8 +19,115 @@
 
 ---
 
+## Quick Start
+
+> New here? Follow these 4 steps in order. Each one should take less than 5 minutes.
+
+### Prerequisites — install these first
+
+| What | Why | How |
+|------|-----|-----|
+| **Node.js 18+** | Runs all JS tooling | `nvm install 22` or [nodejs.org](https://nodejs.org) |
+| **pnpm 9+** | Package manager | `corepack enable && corepack prepare pnpm@9 --activate` |
+| **Docker Desktop** | Runs the backend locally | [docker.com/get-docker](https://docs.docker.com/get-docker/) |
+| **Xcode 15+** | iOS simulator (Mac only) | Mac App Store — then open it once and accept the license |
+| **Android Studio** | Android emulator | [developer.android.com/studio](https://developer.android.com/studio) |
+
+> iOS only? Skip Android Studio. Android only? Skip Xcode.
+
+---
+
+### Step 1 — Get the code & install dependencies
+
+```bash
+git clone https://github.com/diaspoai/AppBoilerplate.git my-app
+cd my-app
+pnpm install
+```
+
+---
+
+### Step 2 — DOCKER (start the backend database)
+
+```bash
+cd packages/backend
+
+# Download the Convex docker-compose file (first time only)
+npx degit get-convex/convex-backend/self-hosted/docker/docker-compose.yml docker-compose.yml
+
+# Start the containers
+docker compose pull && docker compose up -d
+```
+
+Two containers will start:
+- **Backend API** at `http://localhost:3210`
+- **Admin dashboard** at `http://localhost:6791`
+
+---
+
+### Step 3 — BACKEND (connect & configure Convex)
+
+```bash
+# Still inside packages/backend
+
+# Generate a secret admin key
+docker compose exec backend ./generate_admin_key.sh
+```
+
+Create the file `packages/backend/.env.local` and paste your key:
+
+```bash
+CONVEX_SELF_HOSTED_URL=http://127.0.0.1:3210
+CONVEX_SELF_HOSTED_ADMIN_KEY=<paste the key from above>
+```
+
+Then start the backend dev server (keep this terminal open):
+
+```bash
+npx convex dev
+# When prompted to set up auth, run: npx @convex-dev/auth
+# Follow the prompts — it will generate JWT keys for you
+```
+
+Finally, copy the env file for the mobile app:
+
+```bash
+cp ../apps/mobile/.env.development.example ../apps/mobile/.env.development
+```
+
+The default `CONVEX_URL=http://127.0.0.1:3210` in that file already points to your local Docker instance — no changes needed.
+
+---
+
+### Step 4 — MOBILE (run the app)
+
+Open a **new terminal** (keep the backend one running).
+
+#### iOS
+
+> **One-time Xcode setup**: Open Xcode → Settings → Accounts → click `+` → sign in with any Apple ID (a free account works). That's it.
+
+```bash
+cd apps/mobile
+pnpm run:ios
+```
+
+This builds the app, installs it on the iOS simulator, and starts Metro — all in one command. The first build takes a few minutes. After that, just use `pnpm dev` to restart Metro without rebuilding.
+
+#### Android
+
+Make sure an emulator is running in Android Studio (Device Manager → ▶ Play), then:
+
+```bash
+cd apps/mobile
+pnpm run:android
+```
+
+---
+
 ## Table of Contents
 
+- [Quick Start](#quick-start)
 - [Why This Boilerplate?](#why-this-boilerplate)
 - [Key Features](#key-features)
 - [Tech Stack](#tech-stack)
@@ -478,14 +585,16 @@ This project uses **Expo dev client** (`expo-dev-client`), which means you must 
 ```bash
 cd apps/mobile
 
-# iOS (requires Xcode)
-npx expo run:ios
+# iOS — targets the simulator, skips cloud capability sync (no signing required)
+pnpm run:ios
 
-# Android (requires Android Studio)
-npx expo run:android
+# Android — targets the default emulator
+pnpm run:android
 ```
 
-> This will prebuild the native project, compile, install the dev client on your simulator/emulator, and start Metro — all in one command. The first build takes a few minutes.
+> This prebuilds the native project, compiles, installs the dev client on your simulator/emulator, and starts Metro — all in one command. The first build takes a few minutes.
+>
+> **iOS signing**: You need a free Apple ID added to Xcode (Settings → Accounts → `+`). No paid developer account required for simulator builds.
 
 #### Subsequent runs — start Metro only
 
