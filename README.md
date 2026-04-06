@@ -115,19 +115,35 @@ Open a **new terminal** (keep the backend one running).
 
 ```bash
 cd apps/mobile
-pnpm run:ios
+
+# First time, or after any Pod / sandbox error:
+pnpm reset:ios
+
+# After the first successful build, just restart Metro:
+pnpm dev
 ```
 
-This builds the app, installs it on the iOS simulator, and starts Metro — all in one command. The first build takes a few minutes. After that, just use `pnpm dev` to restart Metro without rebuilding.
+`reset:ios` wipes the stale native `ios/` folder and rebuilds from scratch. Takes a few minutes the first time — only needs re-running when you add a new native dependency.
 
 #### Android
 
-Make sure an emulator is running in Android Studio (Device Manager → ▶ Play), then:
+> **One-time Android Studio setup**:
+> 1. Install [Android Studio](https://developer.android.com/studio)
+> 2. Open it → **More Actions → SDK Manager** → install **Android SDK** (API 35 recommended)
+> 3. **More Actions → Virtual Device Manager** → create a device (e.g. Pixel 9, API 35) → hit ▶ Play to start it
+> 4. Set `ANDROID_HOME` if not already set — add `export ANDROID_HOME=$HOME/Library/Android/sdk` to your `~/.zshrc` then restart your terminal
 
 ```bash
 cd apps/mobile
-pnpm run:android
+
+# First time, or after any Gradle / build error:
+pnpm reset:android
+
+# After the first successful build, just restart Metro:
+pnpm dev
 ```
+
+`reset:android` wipes the stale `android/` folder and rebuilds from scratch — same as `reset:ios`, only needed again when you add a new native dependency.
 
 ---
 
@@ -1008,13 +1024,16 @@ Backend tests require `packages/backend/convex/_generated/` (produced by `npx co
 
 The `transformIgnorePatterns` in `jest.config.js` includes `\\.pnpm` in the negative lookahead. This ensures Jest enters pnpm's virtual store directory and correctly transforms React Native packages. Don't remove it.
 
-### `expo prebuild` fails
+### `expo prebuild` fails / Pods sandbox out of sync
 
 ```bash
-# Clean and rebuild
 cd apps/mobile
-rm -rf ios android
-pnpm expo prebuild --platform ios --clean
+
+# iOS
+pnpm reset:ios
+
+# Android
+pnpm reset:android
 ```
 
 ### `jest-expo` version mismatch
