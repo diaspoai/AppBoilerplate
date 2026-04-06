@@ -25,15 +25,135 @@
 
 ### Prerequisites — install these first
 
-| What | Why | How |
-|------|-----|-----|
-| **Node.js 18+** | Runs all JS tooling | `nvm install 22` or [nodejs.org](https://nodejs.org) |
-| **pnpm 9+** | Package manager | `corepack enable && corepack prepare pnpm@9 --activate` |
-| **Docker Desktop** | Runs the backend locally | [docker.com/get-docker](https://docs.docker.com/get-docker/) |
-| **Xcode 15+** | iOS simulator (Mac only) | Mac App Store — then open it once and accept the license |
-| **Android Studio** | Android emulator | [developer.android.com/studio](https://developer.android.com/studio) |
+> This project uses **Expo Development Builds** running locally (no EAS cloud build required). `expo-dev-client` is already included — you do not need to install it separately.
+>
+> Follow the section that matches your OS and target platform. Reference: [Expo environment setup docs](https://docs.expo.dev/get-started/set-up-your-environment/)
 
-> iOS only? Skip Android Studio. Android only? Skip Xcode.
+---
+
+#### 1 — Node.js & pnpm (all platforms)
+
+```bash
+# Install Node.js 22 (via nvm — recommended)
+nvm install 22 && nvm use 22
+
+# Enable pnpm via corepack (comes with Node)
+corepack enable && corepack prepare pnpm@9 --activate
+```
+
+---
+
+#### 2 — Docker Desktop (all platforms)
+
+Download and install from [docs.docker.com/get-docker](https://docs.docker.com/get-docker/). Required to run the Convex backend locally.
+
+---
+
+#### 3 — iOS Simulator (macOS only)
+
+1. Install **Xcode 15+** from the Mac App Store
+2. Open Xcode → **Settings → Locations** → select the latest version under **Command Line Tools**
+3. Open Xcode → **Settings → Components → Platform Support → iOS** → click **Get** to download the simulator
+4. Install Watchman (file watcher used by Metro):
+   ```bash
+   brew install watchman
+   ```
+
+---
+
+#### 4 — Android Emulator
+
+Pick your operating system:
+
+<details>
+<summary><strong>macOS</strong></summary>
+
+**Install JDK 17:**
+```bash
+brew install --cask zulu@17
+```
+
+Add to your `~/.zshrc`:
+```bash
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+```
+
+**Install Android Studio** → [developer.android.com/studio](https://developer.android.com/studio)
+
+Inside Android Studio:
+- **More Actions → SDK Manager** → install **Android SDK Platform 35** (Android 15) + **SDK Build-Tools** + **Android Emulator**
+- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone (e.g. Pixel 9) → select **API 35** → click **Finish** → hit ▶ Play to start the emulator
+
+Add to your `~/.zshrc`:
+```bash
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+Reload and verify:
+```bash
+source ~/.zshrc
+adb --version   # should print a version number
+```
+
+</details>
+
+<details>
+<summary><strong>Windows</strong></summary>
+
+**Install JDK 17** (via Chocolatey):
+```powershell
+choco install -y microsoft-openjdk17
+```
+
+**Install Android Studio** → [developer.android.com/studio](https://developer.android.com/studio) → choose **Standard** setup during installation.
+
+Inside Android Studio:
+- **More Actions → SDK Manager** → install **Android SDK Platform 35** + **SDK Build-Tools** + **Android Emulator**
+- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone → select **API 35** → click **Finish** → hit ▶ Play
+
+Set environment variables via **Control Panel → User Accounts → Change my environment variables**:
+- `ANDROID_HOME` = `%LOCALAPPDATA%\Android\Sdk`
+- Append to `PATH`: `%LOCALAPPDATA%\Android\Sdk\platform-tools`
+
+Verify in PowerShell:
+```powershell
+adb --version   # should print a version number
+```
+
+</details>
+
+<details>
+<summary><strong>Linux</strong></summary>
+
+**Install JDK 17** via your package manager, e.g.:
+```bash
+sudo apt install openjdk-17-jdk   # Debian/Ubuntu
+```
+
+**Install Watchman** following the [official Watchman docs](https://facebook.github.io/watchman/docs/install).
+
+**Install Android Studio** → [developer.android.com/studio](https://developer.android.com/studio)
+
+Inside Android Studio:
+- **More Actions → SDK Manager** → install **Android SDK Platform 35** + **SDK Build-Tools** + **Android Emulator**
+- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone → select **API 35** → click **Finish** → hit ▶ Play
+
+Add to your `~/.bashrc` or `~/.zshrc`:
+```bash
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+```
+
+Reload and verify:
+```bash
+source ~/.bashrc
+adb --version
+```
+
+</details>
 
 ---
 
