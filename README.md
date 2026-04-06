@@ -103,7 +103,11 @@ The default `CONVEX_URL=http://127.0.0.1:3210` in that file already points to yo
 
 Open a **new terminal** (keep the backend one running).
 
-> If you see `node_modules missing`, run `pnpm install` from the **root** of the project first (`cd` back to `my-app` and run it there).
+> **Before running the app**, make sure you installed dependencies from the **root** of the project:
+> ```bash
+> cd my-app   # ← the repo root, not apps/mobile
+> pnpm install
+> ```
 
 #### iOS
 
