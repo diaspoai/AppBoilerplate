@@ -21,7 +21,7 @@
 
 ## Quick Start
 
-> New here? Follow these 4 steps in order. Each one should take less than 5 minutes.
+> New here? Follow these 4 steps in order. Steps 1–3 take under 5 minutes each. **Step 4 (Android) takes 10–15 minutes on the first build** — Gradle downloads and compiles native dependencies from scratch. Subsequent builds are fast.
 
 ### Prerequisites — install these first
 
@@ -81,8 +81,8 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 **Install Android Studio** → [developer.android.com/studio](https://developer.android.com/studio)
 
 Inside Android Studio:
-- **More Actions → SDK Manager** → install **Android SDK Platform 35** (Android 15) + **SDK Build-Tools** + **Android Emulator**
-- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone (e.g. Pixel 9) → select **API 35** → click **Finish** → hit ▶ Play to start the emulator
+- **More Actions → SDK Manager** → install **Android SDK Platform 36** (Android 15) + **SDK Build-Tools** + **Android Emulator**
+- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone (e.g. Pixel 9) → select **API 36** → click **Finish** → hit ▶ Play to start the emulator
 
 Add to your `~/.zshrc`:
 ```bash
@@ -110,8 +110,8 @@ choco install -y microsoft-openjdk17
 **Install Android Studio** → [developer.android.com/studio](https://developer.android.com/studio) → choose **Standard** setup during installation.
 
 Inside Android Studio:
-- **More Actions → SDK Manager** → install **Android SDK Platform 35** + **SDK Build-Tools** + **Android Emulator**
-- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone → select **API 35** → click **Finish** → hit ▶ Play
+- **More Actions → SDK Manager** → install **Android SDK Platform 36** + **SDK Build-Tools** + **Android Emulator**
+- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone → select **API 36** → click **Finish** → hit ▶ Play
 
 Set environment variables via **Control Panel → User Accounts → Change my environment variables**:
 - `ANDROID_HOME` = `%LOCALAPPDATA%\Android\Sdk`
@@ -137,8 +137,8 @@ sudo apt install openjdk-17-jdk   # Debian/Ubuntu
 **Install Android Studio** → [developer.android.com/studio](https://developer.android.com/studio)
 
 Inside Android Studio:
-- **More Actions → SDK Manager** → install **Android SDK Platform 35** + **SDK Build-Tools** + **Android Emulator**
-- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone → select **API 35** → click **Finish** → hit ▶ Play
+- **More Actions → SDK Manager** → install **Android SDK Platform 36** + **SDK Build-Tools** + **Android Emulator**
+- **More Actions → Virtual Device Manager** → **Create Device** → pick a phone → select **API 36** → click **Finish** → hit ▶ Play
 
 Add to your `~/.bashrc` or `~/.zshrc`:
 ```bash
@@ -249,8 +249,8 @@ pnpm dev
 
 > **One-time Android Studio setup**:
 > 1. Install [Android Studio](https://developer.android.com/studio)
-> 2. Open it → **More Actions → SDK Manager** → install **Android SDK** (API 35 recommended)
-> 3. **More Actions → Virtual Device Manager** → create a device (e.g. Pixel 9, API 35) → hit ▶ Play to start it
+> 2. Open it → **More Actions → SDK Manager** → install **Android SDK** (API 36 recommended)
+> 3. **More Actions → Virtual Device Manager** → create a device (e.g. Pixel 9, API 36) → hit ▶ Play to start it
 > 4. Set `ANDROID_HOME` if not already set — add `export ANDROID_HOME=$HOME/Library/Android/sdk` to your `~/.zshrc` then restart your terminal
 
 ```bash
@@ -263,7 +263,7 @@ pnpm reset:android
 pnpm dev
 ```
 
-`reset:android` wipes the stale `android/` folder and rebuilds from scratch — same as `reset:ios`, only needed again when you add a new native dependency.
+`reset:android` wipes the stale `android/` folder and rebuilds from scratch. **The first build takes 10–15 minutes** — Gradle downloads and compiles all native dependencies. Subsequent builds are fast (under 1 minute). Only re-run this when you add a new native dependency.
 
 ---
 
@@ -734,7 +734,7 @@ pnpm run:ios
 pnpm run:android
 ```
 
-> This prebuilds the native project, compiles, installs the dev client on your simulator/emulator, and starts Metro — all in one command. The first build takes a few minutes.
+> This prebuilds the native project, compiles, installs the dev client on your simulator/emulator, and starts Metro — all in one command. **iOS first build: ~3–5 minutes. Android first build: 10–15 minutes** (Gradle compiles native dependencies from scratch — subsequent builds are fast).
 >
 > **iOS signing**: You need a free Apple ID added to Xcode (Settings → Accounts → `+`). No paid developer account required for simulator builds.
 
