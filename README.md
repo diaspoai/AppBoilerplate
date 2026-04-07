@@ -10,10 +10,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Expo_SDK-53-000020?logo=expo" alt="Expo SDK 53" />
-  <img src="https://img.shields.io/badge/React_Native-0.79-61DAFB?logo=react" alt="React Native 0.79" />
-  <img src="https://img.shields.io/badge/Convex-1.17-F3722C?logo=convex" alt="Convex" />
-  <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Expo_SDK-55-000020?logo=expo" alt="Expo SDK 55" />
+  <img src="https://img.shields.io/badge/React_Native-0.83-61DAFB?logo=react" alt="React Native 0.83" />
+  <img src="https://img.shields.io/badge/Convex-1.34-F3722C?logo=convex" alt="Convex" />
+  <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Turborepo-2.5-EF4444?logo=turborepo" alt="Turborepo" />
 </p>
 
@@ -51,7 +51,7 @@ Download and install from [docs.docker.com/get-docker](https://docs.docker.com/g
 
 #### 3 — iOS Simulator (macOS only)
 
-1. Install **Xcode 15+** from the Mac App Store
+1. Install **Xcode 16+** from the Mac App Store
 2. Open Xcode → **Settings → Locations** → select the latest version under **Command Line Tools**
 3. Open Xcode → **Settings → Components → Platform Support → iOS** → click **Get** to download the simulator
 4. Install Watchman (file watcher used by Metro):
@@ -335,14 +335,14 @@ Fork → rename → `pnpm install` → `pnpm dev` → you're building features.
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
-| **Mobile framework** | Expo (dev client) | SDK 53 |
-| **UI** | React Native | 0.79.2 |
-| **Language** | TypeScript | 5.8 |
-| **Backend** | Convex | 1.17 |
+| **Mobile framework** | Expo (dev client) | SDK 55 |
+| **UI** | React Native | 0.83.4 |
+| **Language** | TypeScript | 5.9 |
+| **Backend** | Convex | 1.34 |
 | **Auth** | @convex-dev/auth (Password) | 0.0.91 |
 | **Navigation** | React Navigation (native stack + bottom tabs) | 7.x |
 | **Client state** | Zustand + persist middleware | 5.x |
-| **i18n** | react-i18next + expo-localization | 16.x / 55.x |
+| **i18n** | react-i18next + expo-localization | 17.x / 55.x |
 | **Push** | expo-notifications | — |
 | **Monorepo** | Turborepo + pnpm | 2.5 / 9.x |
 | **Linting** | ESLint + Prettier | 8.x / 3.x |
@@ -1158,7 +1158,7 @@ pnpm reset:android
 
 ### `jest-expo` version mismatch
 
-`jest-expo` version must match Expo SDK version. For SDK 53, use `jest-expo@~53`. Running `jest-expo@55` with SDK 53 will cause cryptic failures.
+`jest-expo` version must match Expo SDK version. For SDK 55, use `jest-expo@~55`. Running a mismatched version will cause cryptic failures.
 
 ### AsyncStorage errors in tests
 
